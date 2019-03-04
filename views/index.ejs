@@ -1,0 +1,20 @@
+<h1>Latest Posts</h1>
+
+
+<!--Loop through and display blog post-->
+<% blogs.forEach( blog => { %>
+    <div>
+        <h2><%= blog.title %></h2>
+        <span>Written on <%= (blog.created.getMonth() + 1) + '/' + blog.created.getDate() + '/' + blog.created.getFullYear() %></span>
+        <img src="<%= blog.image %>">
+        <p><%= blog.content %></p>
+    </div>
+
+<% }); %>
+
+
+
+
+
+
+
