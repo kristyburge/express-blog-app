@@ -57,6 +57,19 @@ app.get('/blogs/new', (req, res) => {
     res.render('new'); 
 });
 
+// SHOW more info about a particular blog post
+app.get('/blogs/:id', (req, res) => {
+    // use the findById() mongoose method
+    Blog.findById(req.params.id, (err, foundPost) => {
+        if(err) {
+            res.redirect('/blogs'); 
+        } else {
+            res.render('show', {blog: foundPost})
+        }
+    }); 
+  
+}); 
+
 
 // CREATE route
 app.post('/blogs', (req, res) => {

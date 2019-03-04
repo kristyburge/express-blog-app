@@ -8,12 +8,14 @@
 }
 
 footer {
-    background: #cecece;
-    color: #444;
-    height: 100px;
-    text-align: center;
+    background: #444;
+    color: #fff;
+    height: 40px;
+    margin-top: 20px;
+    text-align: right;
 }
 
-footer p {
-    padding-top: 40px;
+footer > p {
+    line-height: 40px;
+    margin-right: 10px;
 }
