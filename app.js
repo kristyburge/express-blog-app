@@ -2,12 +2,14 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser"); 
 const mongoose = require("mongoose");
+const methodOverride = require("method-override"); 
 
 // APP CONFIG
 mongoose.connect('mongodb://localhost:27017/blog', {useNewUrlParser: true}); 
 app.set('view engine', 'ejs'); 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(methodOverride("_method")); 
 
 // MONGOOSE & MODEL CONFIG 
 const blogSchema = new mongoose.Schema({
@@ -89,6 +91,38 @@ app.post('/blogs', (req, res) => {
      
 }); 
 
+
+// EDIT route
+// find and show the edit form
+app.get('/blogs/:id/edit', (req, res) => {
+    // Lookup the current info for that post
+    Blog.findById(req.params.id, (err, foundPost) => {
+        if(err) {
+            res.redirect('/blogs'); 
+        } else {
+            // pass in the data found
+            res.render('edit', { blog: foundPost }); 
+        }
+    }); 
+}); 
+
+
+// UPDATE route
+// update the post
+app.put('/blogs/:id', (req, res) => {
+    // 1. find the existing blog
+    // 2. update with the new data
+    // ALL IN ONE - use this method: .findByIdAndUpdate(id, newData, callback) 
+    Blog.findByIdAndUpdate(req.params.id, req.body.blog, (err, updatedPost) => {
+        if(err) {
+            res.redirect('/blogs'); 
+        } else {
+            // go back to the show page
+            res.redirect('/blogs/' + req.params.id); 
+        }
+    }); 
+    
+}); 
 
 app.listen(process.env.PORT, process.env.IP, () =>{
     console.log('Starting the server...'); 
