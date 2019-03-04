@@ -51,8 +51,30 @@ app.get('/blogs', (req, res) => {
     
 }); 
 
+// NEW route
+app.get('/blogs/new', (req, res) => {
+    // show the new blog post form
+    res.render('new'); 
+});
 
 
+// CREATE route
+app.post('/blogs', (req, res) => {
+    // Create post
+    // console.log(req.body.blog); // saved as an object
+    Blog.create(req.body.blog, (err, newPost) => {
+    if(err){
+        console.log(err);
+        res.render('new');
+    } else {
+        console.log('Saved new post'); 
+        // console.log(newPost); 
+        // redirect to INDEX
+        res.redirect('/blogs');
+    }
+    }); 
+     
+}); 
 
 
 app.listen(process.env.PORT, process.env.IP, () =>{

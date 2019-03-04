@@ -2,14 +2,15 @@
     font-size: 2em;
 }
 
+.main.container {
+    margin-top: 80px;
+    height: 100%;
+}
+
 footer {
     background: #cecece;
     color: #444;
     height: 100px;
-    position: fixed;
-    bottom: 0;
-    left: 0; 
-    right: 0;
     text-align: center;
 }
 
