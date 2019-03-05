@@ -124,6 +124,23 @@ app.put('/blogs/:id', (req, res) => {
     
 }); 
 
+
+// DESTROY / DELETE ROUTE
+app.delete('/blogs/:id', (req, res) => {
+    // 1: destroy the post
+    // 2: redirect somewhere
+    // use the method .findByIdAndRemove(id, callback)
+    // res.send('You have reached the DESTROY route'); 
+    Blog.findByIdAndRemove(req.params.id, (err) => {
+        if (err) {
+            console.log('ERROR: ', err); 
+            res.redirect('/blogs'); 
+        } else {
+            res.redirect('/blogs');
+        }
+    });
+});
+
 app.listen(process.env.PORT, process.env.IP, () =>{
     console.log('Starting the server...'); 
 }); 

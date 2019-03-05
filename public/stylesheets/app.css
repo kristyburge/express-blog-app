@@ -6,6 +6,10 @@
     margin-top: 80px;
 }
 
+#delete {
+    display: inline;
+}
+
 footer {
     background: #444;
     color: #fff;
