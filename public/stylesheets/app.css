@@ -6,6 +6,16 @@
     margin-top: 80px;
 }
 
+.ui.items>.item>.content {
+    margin-right: 50px;
+}
+
+.description {
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+
 #delete {
     display: inline;
 }

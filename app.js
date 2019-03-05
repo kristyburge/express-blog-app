@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require("body-parser"); 
 const mongoose = require("mongoose");
 const methodOverride = require("method-override"); 
+const expressSanitizer = require("express-sanitizer");
 
 // APP CONFIG
 mongoose.connect('mongodb://localhost:27017/blog', {useNewUrlParser: true}); 
@@ -10,6 +11,7 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride("_method")); 
+app.use(expressSanitizer()); // must come after bodyParser!
 
 // MONGOOSE & MODEL CONFIG 
 const blogSchema = new mongoose.Schema({
@@ -74,8 +76,14 @@ app.get('/blogs/:id', (req, res) => {
 
 
 // CREATE route
+// use sanitizer in CREATE & UPDATE routes
 app.post('/blogs', (req, res) => {
     // Create post
+    // sanitize the body
+    // console.log(req.body); // before sanitize
+    req.body.blog.content = req.sanitize(req.body.blog.content);
+    // console.log("=======");
+    // console.log(req.body); // after sanitize
     // console.log(req.body.blog); // saved as an object
     Blog.create(req.body.blog, (err, newPost) => {
         if(err){
@@ -108,10 +116,13 @@ app.get('/blogs/:id/edit', (req, res) => {
 
 
 // UPDATE route
-// update the post
+// update the post (sanitize the body)
 app.put('/blogs/:id', (req, res) => {
     // 1. find the existing blog
     // 2. update with the new data
+    // SANITIZE 
+    req.body.blog.content = req.sanitize(req.body.blog.content);
+    
     // ALL IN ONE - use this method: .findByIdAndUpdate(id, newData, callback) 
     Blog.findByIdAndUpdate(req.params.id, req.body.blog, (err, updatedPost) => {
         if(err) {
